@@ -81,8 +81,7 @@ const RecordList = () => {
 
   //Searching table in lower case
   const searchTable = () => {
-    return searchQuery === "" ? recordSelector.allRecords :
-      recordSelector.allRecords.filter(item => JSON.stringify(item).toLowerCase().includes(searchQuery))
+    return searchQuery === "" ? recordSelector.allRecords :recordSelector.allRecords.filter(item => JSON.stringify(item).toLowerCase().includes(searchQuery))
   }
 
   //Opening edit modal
