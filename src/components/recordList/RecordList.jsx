@@ -3,7 +3,6 @@ import './recordList.css'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-import Loading from '../loadingScreen/Loading'
 import Input from '../reUsableComponents/inputField/InputField'
 import TextArea from '../reUsableComponents/textareaField/TextArea'
 import SubmitButton from '../reUsableComponents/submitButton/SubmitButton'
@@ -92,7 +91,7 @@ const RecordList = () => {
 
   //Closing edit modal
   const handleCloseModal = (dispatch) => {
-    dispatch(setRecord({ name: '', email: '', occupation: '', bio: '' }))
+    dispatch(setRecord({}))
     setFormErrors([])
     document.getElementById("form-modal").reset();
     setActiveModal(false)
@@ -145,7 +144,7 @@ const RecordList = () => {
         </div>
 
 
-        {recordSelector.allRecords?.length === 0 ? <Loading /> :
+        {recordSelector.allRecords?.length === 0 ? <div className="loading-dual-ring"></div> :
           <DataTable value={searchTable()} responsive="true" rows={rows} responsiveLayout="stack" breakpoint="1200px"
             paginator paginatorTemplate={paginationTemplate} first={first} onPage={(event) => { setFirst(event.first); setRows(event.rows) }} paginatorClassName="justify-content-end">
             <Column field="_id" header="ID" />
