@@ -24,6 +24,7 @@ const RecordList = () => {
   const [activeModal, setActiveModal] = useState(false)
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10)
+  const [searchQuery, setSearchQuery] = useState('')
   const [formErrors, setFormErrors] = useState()
   const [person, setPerson] = useState()
 
@@ -57,7 +58,7 @@ const RecordList = () => {
   };
 
 
-   //Getting all records on component mount
+  //Getting all records on component mount
   useEffect(() => {
     getAllRecords(dispatch).then(resp => dispatch(setAllRecords(resp?.data)))
   }, [dispatch])
@@ -77,8 +78,14 @@ const RecordList = () => {
     }
   }
 
+  //Searching table in lower case
+const searchTable = () =>{
+    return searchQuery === "" ? recordSelector.allRecords : 
+    recordSelector.allRecords.filter(item => JSON.stringify(item).toLowerCase().includes(searchQuery))
+  }
+
   //Opening edit modal
-  const handleOpenEditModal = (data) =>{
+  const handleOpenEditModal = (data) => {
     dispatch(setRecord(data))
     setPerson({ name: data.name, email: data.email, occupation: data.occupation, bio: data.bio })
     setActiveModal(true)
@@ -93,7 +100,7 @@ const RecordList = () => {
     setActiveModal(false)
   }
 
-   //Table pagination section
+  //Table pagination section
   const paginationTemplate = {
     layout: 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink',
 
@@ -107,11 +114,11 @@ const RecordList = () => {
   };
 
 
-   //Table actions section
+  //Table actions section
   const actionsBodyTemplate = (rowData) => {
     return <div className='table-actions'>
-      <p id='edit-action'  onClick={() => handleOpenEditModal(rowData) } >
-      <i id="edit-action-icon" className="pi pi-pencil"></i>Edit</p>
+      <p id='edit-action' onClick={() => handleOpenEditModal(rowData)} >
+        <i id="edit-action-icon" className="pi pi-pencil"></i>Edit</p>
     </div>
   }
 
@@ -119,9 +126,13 @@ const RecordList = () => {
   return (
     <div className='table-list-page'>
 
+      <div className='page-header-section'>
+      <p className='page-title'>Records List<p className='sub-title'>Manage Your Records</p></p>
+      </div>
+
       <div className='data-table'>
         <div className='table-toolbar'>
-        <p className='page-title'>Records List<p className='sub-title'>Manage Your Records</p></p>
+          
           <div>
             <label className='form-label'>Records per page: </label>
             <select type='number' className='rows-select-field' value={rows} onChange={(e) => setRows(e.target.value)}>
@@ -130,15 +141,20 @@ const RecordList = () => {
               )}
             </select>
           </div>
+
+          <div className='search-table-input'>
+          <i id="edit-action-icon" className="pi pi-search" />
+            <input type='text' className="s-table-input" placeholder='Search this table' onChange={(e) => setSearchQuery(e.target.value)} />
+          </div>
         </div>
         {recordSelector.allRecords.length === 0 ? <Loading /> :
-          <DataTable value={recordSelector.allRecords} responsive="true" rows={rows} responsiveLayout="stack" breakpoint="1200px"
+          <DataTable value={searchTable()} responsive="true" rows={rows} responsiveLayout="stack" breakpoint="1200px"
             paginator paginatorTemplate={paginationTemplate} first={first} onPage={(event) => { setFirst(event.first); setRows(event.rows) }} paginatorClassName="justify-content-end">
             <Column field="_id" header="ID" />
-            <Column field="name" header="Name"  />
+            <Column field="name" header="Name" />
             <Column field="email" header="Email" />
             <Column field="occupation" header="Occupation" />
-            <Column field="bio" header="Bio" style={{height:'10%'}} />
+            <Column field="bio" header="Bio" style={{ height: '10%' }} />
             <Column header="Actions" body={actionsBodyTemplate} />
           </DataTable>}
       </div>
