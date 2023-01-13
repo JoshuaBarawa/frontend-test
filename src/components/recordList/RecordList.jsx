@@ -60,10 +60,11 @@ const RecordList = () => {
 
   //Getting all records on component mount
   useEffect(() => {
-    getAllRecords(dispatch).then(resp => dispatch(setAllRecords(resp?.data)))
-    console.log(recordSelector.allRecords)
-  }, [dispatch, recordSelector.allRecords])
-
+    getAllRecords(dispatch).then(resp => {
+      if (resp?.status === 200) { dispatch(setAllRecords(resp?.data)) }
+      else { toast.error("Unable to load data.Check your connection!", { theme: "colored" }) }
+    })
+  }, [dispatch])
 
   //Updating record
   const handleUpdateRecord = () => {
