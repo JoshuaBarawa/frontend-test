@@ -1,0 +1,54 @@
+
+
+.form-group{
+    display: flex;
+    flex-direction: column; 
+    margin-bottom: 20px;
+}
+
+.form-label{
+    font-size: 14px !important;
+    color: rgb(38, 39, 39);
+    height: 20px;
+}
+
+.form-control{
+    padding: 6px 5px;
+    border-radius: 3px;
+    border: 1px rgb(182, 180, 180) solid;
+    font-size:13px !important;
+    background-color: rgb(240, 240, 240);
+    margin: 0px !important;
+}
+.form-control:focus{
+    outline: none;
+    border-color: #31bb5f;
+    box-shadow: 0 0 3px #31bb5f;
+    background-color: rgb(255, 255, 255);
+}
+
+.error{
+font-size: 12px;
+color: rgb(221, 34, 34);
+margin-top: 5px;
+display: none;
+
+}
+
+input:invalid[focused=true]{
+    border-color:rgb(221, 34, 34);
+}
+
+input:invalid[focused=true] ~ span{
+    display: block;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
