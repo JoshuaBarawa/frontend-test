@@ -61,7 +61,8 @@ const RecordList = () => {
   //Getting all records on component mount
   useEffect(() => {
     getAllRecords(dispatch).then(resp => dispatch(setAllRecords(resp?.data)))
-  }, [dispatch])
+    console.log(recordSelector.allRecords)
+  }, [dispatch, recordSelector.allRecords])
 
 
   //Updating record
