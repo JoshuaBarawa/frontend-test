@@ -79,9 +79,9 @@ const RecordList = () => {
   }
 
   //Searching table in lower case
-const searchTable = () =>{
-    return searchQuery === "" ? recordSelector.allRecords : 
-    recordSelector.allRecords.filter(item => JSON.stringify(item).toLowerCase().includes(searchQuery))
+  const searchTable = () => {
+    return searchQuery === "" ? recordSelector.allRecords :
+      recordSelector.allRecords.filter(item => JSON.stringify(item).toLowerCase().includes(searchQuery))
   }
 
   //Opening edit modal
@@ -127,12 +127,11 @@ const searchTable = () =>{
     <div className='table-list-page'>
 
       <div className='page-header-section'>
-      <p className='page-title'>Records List<p className='sub-title'>Manage Your Records</p></p>
+        <p className='page-title'>Records List<p className='sub-title'>Manage Your Records</p></p>
       </div>
 
       <div className='data-table'>
         <div className='table-toolbar'>
-          
           <div>
             <label className='form-label'>Records per page: </label>
             <select type='number' className='rows-select-field' value={rows} onChange={(e) => setRows(e.target.value)}>
@@ -141,13 +140,14 @@ const searchTable = () =>{
               )}
             </select>
           </div>
-
           <div className='search-table-input'>
-          <i id="edit-action-icon" className="pi pi-search" />
+            <i id="edit-action-icon" className="pi pi-search" />
             <input type='text' className="s-table-input" placeholder='Search this table' onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
         </div>
-        {recordSelector.allRecords.length === 0 ? <Loading /> :
+
+
+        {recordSelector.allRecords?.length === 0 ? <Loading /> :
           <DataTable value={searchTable()} responsive="true" rows={rows} responsiveLayout="stack" breakpoint="1200px"
             paginator paginatorTemplate={paginationTemplate} first={first} onPage={(event) => { setFirst(event.first); setRows(event.rows) }} paginatorClassName="justify-content-end">
             <Column field="_id" header="ID" />
@@ -161,9 +161,7 @@ const searchTable = () =>{
 
 
 
-
       {/* /////////////////////EDITNG MODAL //////////// */}
-
       <div className={activeModal ? 'view-modal-active' : 'view-modal-inactive'}>
         <form id='form-modal' className='view-modal-content'>
           <p className='modal-title'> Edit Record
