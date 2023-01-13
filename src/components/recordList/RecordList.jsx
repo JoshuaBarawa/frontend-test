@@ -147,7 +147,7 @@ const RecordList = () => {
         </div>
 
 
-        {recordSelector?.allRecords.length === 0 ? <Loading /> :
+        {recordSelector.allRecords?.length === 0 ? <Loading /> :
           <DataTable value={searchTable()} responsive="true" rows={rows} responsiveLayout="stack" breakpoint="1200px"
             paginator paginatorTemplate={paginationTemplate} first={first} onPage={(event) => { setFirst(event.first); setRows(event.rows) }} paginatorClassName="justify-content-end">
             <Column field="_id" header="ID" />
