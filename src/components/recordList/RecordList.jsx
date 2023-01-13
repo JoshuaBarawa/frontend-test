@@ -26,12 +26,11 @@ const RecordList = () => {
   const [rows, setRows] = useState(10)
   const [searchQuery, setSearchQuery] = useState('')
   const [formErrors, setFormErrors] = useState()
-  const [person, setPerson] = useState()
 
 
   //Handle change on input value
   const handleOnChange = (e) => {
-    setPerson({ ...person, [e.target.name]: e.target.value })
+    dispatch(setRecord({ ...recordSelector.record, [e.target.name]: e.target.value }))
   }
 
 
@@ -62,14 +61,14 @@ const RecordList = () => {
   useEffect(() => {
     getAllRecords(dispatch).then(resp => {
       if (resp?.status === 200) { dispatch(setAllRecords(resp?.data)) }
-      else { toast.error("Unable to load data.Check your connection!", { theme: "colored" }) }
+      else { toast.error("Unable to load data!", { theme: "colored" }) }
     })
   }, [dispatch])
 
   //Updating record
   const handleUpdateRecord = () => {
     if (Object.keys(validate()).length === 0) {
-      editRecord(recordSelector.record._id, person, dispatch).then(resp => {
+      editRecord(recordSelector.record._id, recordSelector.record, dispatch).then(resp => {
         if (resp?.status === 200) {
           handleCloseModal(dispatch)
           toast.success("Record Updated successful!", { theme: "colored" })
@@ -88,14 +87,12 @@ const RecordList = () => {
   //Opening edit modal
   const handleOpenEditModal = (data) => {
     dispatch(setRecord(data))
-    setPerson({ name: data.name, email: data.email, occupation: data.occupation, bio: data.bio })
     setActiveModal(true)
   }
 
   //Closing edit modal
   const handleCloseModal = (dispatch) => {
-    setRecord({ name: '', email: '', occupation: '', bio: '' })
-    setPerson({})
+    dispatch(setRecord({ name: '', email: '', occupation: '', bio: '' }))
     setFormErrors([])
     document.getElementById("form-modal").reset();
     setActiveModal(false)
@@ -168,13 +165,13 @@ const RecordList = () => {
           <p className='modal-title'> Edit Record
             <i id='close-button' className="pi pi-times" onClick={() => handleCloseModal(dispatch)} /></p>
           <div className="dialog-inputs">
-            <Input label="Name *" name='name' type='text' errorMessage={formErrors?.name} value={person?.name}
+            <Input label="Name *" name='name' type='text' errorMessage={formErrors?.name} value={recordSelector.record?.name}
               handleChange={(e) => handleOnChange(e)} />
-            <Input label="Email *" name='email' type='text' errorMessage={formErrors?.email} value={person?.email}
+            <Input label="Email *" name='email' type='text' errorMessage={formErrors?.email} value={recordSelector.record?.email}
               handleChange={(e) => handleOnChange(e)} />
             <Input label="Occupation *" name='occupation' type='text' errorMessage={formErrors?.occupation}
-              value={person?.occupation} handleChange={(e) => handleOnChange(e)} />
-            <TextArea label="Bio *" name='bio' type='text' defaultValue={person?.bio}
+              value={recordSelector.record?.occupation} handleChange={(e) => handleOnChange(e)} />
+            <TextArea label="Bio *" name='bio' type='text' defaultValue={recordSelector.record?.bio}
               handleChange={(e) => handleOnChange(e)} error={formErrors?.bio} />
           </div>
           <div className='dialog-footer'>
