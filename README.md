@@ -1,24 +1,17 @@
-# React App created By Joshua Mwamlanda
+## React App created By Joshua Barawa
 
-## Available Branches
-### Frontend
-Holds the react files for the view
+## Installation and Setup Instructions
+### Example:
+Clone down this repository. You will need node and npm installed globally on your machine.
 
+Installation:
 
-### Backend
-Holds the php files for the api
+npm install
 
-Change database connection parameters in database class file.
-current links in frontend code are not pointing to local files
+To Start Server:
 
+npm start
 
-## Available Scripts
-In the frontend project directory, you can run:
+To Visit App:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+localhost:3000
